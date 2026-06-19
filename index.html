@@ -114,12 +114,6 @@ if (fbp) utms.fbp = fbp;
         e.preventDefault();
         const form = e.target;
         if (!CHECKOUT.directPix && !form.checkValidity()) { form.reportValidity(); return; }
-        const cachedPix = localStorage.getItem(CACHE_KEY);
-        if (cachedPix) {
-            const { pixData, expiresAt } = JSON.parse(cachedPix);
-            if (new Date().getTime() < expiresAt) { showPixModal(pixData); closePopup(true); return; }
-            else { localStorage.removeItem(CACHE_KEY); }
-        }
         const payButton = document.getElementById('paradise-popup-pay-btn');
         payButton.disabled = true;
         payButton.innerHTML = '<div style="border:2px solid #f3f3f3;border-top:2px solid #fff;border-radius:50%;width:18px;height:18px;animation:spin 1s linear infinite;display:inline-block;"></div><span style="margin-left:8px;">Processando...</span>';
