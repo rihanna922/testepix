@@ -220,13 +220,25 @@ if (fbp) utms.fbp = fbp;
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const style = document.createElement('style');
-        style.innerHTML = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
-        document.head.appendChild(style);
-        document.querySelectorAll(CHECKOUT.triggerSelector).forEach(el => {
-            el.addEventListener('click', (e) => { e.preventDefault(); showPopup(); });
+    const style = document.createElement('style');
+    style.innerHTML = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+
+    function attachParadiseListeners() {
+        const elements = document.querySelectorAll(CHECKOUT.triggerSelector);
+        if (elements.length === 0) {
+            setTimeout(attachParadiseListeners, 300);
+            return;
+        }
+        elements.forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPopup();
+            });
         });
+    }
+    setTimeout(attachParadiseListeners, 500);
+    (function unusedDOMContentLoaded() {
     });
 })();</script>
   </body>
