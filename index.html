@@ -235,6 +235,120 @@ if (fbp) utms.fbp = fbp;
     (function unusedDOMContentLoaded() {
     });
 })();</script>
+
+<script>
+const PROXY_URL_TRIMESTRAL = '/api/proxy_490fa6';
+</script>
+<script>(function() {
+    const PROXY_URL = PROXY_URL_TRIMESTRAL;
+    const CACHE_KEY = 'paradise_popup_pix_490fa6';
+    const utms = Object.fromEntries(new URLSearchParams(window.location.search));
+    const getCookie = (name) => { const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? match[2] : null; };
+    const fbc = getCookie('_fbc'); const fbp = getCookie('_fbp');
+    if (fbc) utms.fbc = fbc; if (fbp) utms.fbp = fbp;
+    const CHECKOUT = {"productHash":"prod_85799dd1a9ed89bd","backgroundColor":"#ffffff","buttonColor":"#ff6820","buttonText":"Comprar Agora com PIX","title":"Bia Araújo","subtitle":"Pagamento rápido e seguro.","fields":{"name":true,"email":true,"phone":false,"document":false,"cep":false,"street":false,"number":false,"complement":false,"neighborhood":false,"city":false,"state":false},"timerMinutes":10,"timerBackgroundColor":"#ffa980","timerTextColor":"#ffffff","amount":5971,"directPix":false,"triggerSelector":".btn-comprar-trimestral","pixModalTitle":"Pagamento via PIX","pixModalCopyButtonText":"Copiar código PIX","pixModalBackgroundColor":"#ffffff","pixModalTextColor":"#1f2937","pixModalButtonColor":"#00c27a","pixModalButtonTextColor":"#ffffff","pixModalValueText":"💰 Valor:","pixModalExpirationText":"🕒 Válido até:","pixModalSecurePaymentText":"Pagamento seguro via PIX","pixModalInfoTextColor":"#0f172a","pixModalSecurePaymentTextColor":"#00c27a","pixModalInputBackgroundColor":"#f9fafb","pixModalInputBorderColor":"#d1d5db","pixModalInputTextColor":"#374151","pixExpirationMinutes":5,"popupTextColor":"#000000","popupSubtitleColor":"#000000","popupPriceColor":"#ff8040","popupInputBackgroundColor":"#ffffff","popupInputBorderColor":"#ffa275","popupInputTextColor":"#000000","facebookPixelId":"","tiktokPixelId":"","backRedirectUrl":""};
+    let timeLeft = CHECKOUT.timerMinutes * 60; let timerInterval = null;
+    const safeParseJSON = async (r) => { const t = await r.text(); if (t.trim().startsWith('<')) throw new Error('Servidor indisponível.'); try { return JSON.parse(t); } catch(e) { throw new Error('Resposta inesperada.'); }};
+    function formatCurrency(v) { return (v/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+    function formatTime(s) { if(s<=0)return"00:00"; return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+    function createPopup() {
+        const el = document.createElement('div'); el.id='paradise-popup-overlay-trimestral';
+        el.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);font-family:-apple-system,sans-serif;';
+        const inputStyle='width:100%;padding:12px;margin-bottom:10px;border-radius:8px;box-sizing:border-box;background-color:#ffffff;border:1px solid #ffa275;color:#000000;';
+        el.innerHTML='<div style="background:#ffffff;color:#000000;padding:24px;border-radius:24px;width:90%;max-width:380px;text-align:center;position:relative;box-sizing:border-box;"><button id="paradise-popup-close-trimestral" style="position:absolute;top:10px;right:10px;background:transparent;border:none;color:#000000;font-size:24px;cursor:pointer;">&times;</button><div id="paradise-popup-timer-trimestral" style="font-size:1.25rem;font-weight:bold;margin-bottom:12px;display:inline-block;padding:4px 12px;border-radius:8px;background-color:#ffa980;color:#ffffff;">'+formatTime(timeLeft)+'</div><h2 style="font-size:1.5rem;font-weight:bold;margin:0 0 4px 0;">Bia Araújo</h2><p style="color:#000000;font-size:0.875rem;margin:0 0 16px 0;">Pagamento rápido e seguro.</p><p style="font-size:2rem;font-weight:bold;color:#ff8040;margin:0 0 16px 0;">'+formatCurrency(CHECKOUT.amount)+'</p><form id="paradise-popup-form-trimestral"><input type="text" name="name" placeholder="Nome Completo" required style="'+inputStyle+'"><input type="email" name="email" placeholder="Seu Melhor E-mail" required style="'+inputStyle+'"><button type="submit" id="paradise-popup-pay-btn-trimestral" style="width:100%;padding:14px;background-color:#ff6820;color:white;border:none;border-radius:12px;font-weight:bold;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span>Comprar Agora com PIX</span></button></form></div>';
+        document.body.appendChild(el);
+        el.addEventListener('click',(e)=>{if(e.target===el)closePopup();});
+        document.getElementById('paradise-popup-close-trimestral').addEventListener('click',closePopup);
+        document.getElementById('paradise-popup-form-trimestral').addEventListener('submit',handleFormSubmit);
+    }
+    function startTimer() { const timerEl=document.getElementById('paradise-popup-timer-trimestral'); if(timerInterval)clearInterval(timerInterval); timerInterval=setInterval(()=>{ timeLeft--; if(timerEl)timerEl.textContent=formatTime(timeLeft); if(timeLeft<=0){clearInterval(timerInterval);const b=document.getElementById('paradise-popup-pay-btn-trimestral');if(b){b.disabled=true;b.style.opacity='0.5';b.textContent='Oferta Encerrada';}}},1000);}
+    async function handleFormSubmit(e) {
+        e.preventDefault(); const form=e.target; if(!form.checkValidity()){form.reportValidity();return;}
+        const payButton=document.getElementById('paradise-popup-pay-btn-trimestral');
+        payButton.disabled=true; payButton.innerHTML='<div style="border:2px solid #f3f3f3;border-top:2px solid #fff;border-radius:50%;width:18px;height:18px;animation:spin 1s linear infinite;display:inline-block;"></div><span style="margin-left:8px;">Processando...</span>';
+        let customerData={}; const elements=form.elements; for(let i=0;i<elements.length;i++){if(elements[i].name)customerData[elements[i].name]=elements[i].value;}
+        try {
+            const response=await fetch(PROXY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer:customerData,utms,productHash:CHECKOUT.productHash,checkoutUrl:window.location.href})});
+            const result=await safeParseJSON(response);
+            if(!response.ok)throw new Error(result.message||result.error||'Ocorreu um erro.');
+            showPixModal(result); closePopup(true);
+        } catch(error) { alert('Erro: '+error.message); payButton.disabled=false; payButton.innerHTML='<span>Comprar Agora com PIX</span>'; }
+    }
+    function showPopup() { const p=document.getElementById('paradise-popup-overlay-trimestral'); if(!p){createPopup();showPopup();return;} p.style.display='flex'; document.body.style.overflow='hidden'; timeLeft=CHECKOUT.timerMinutes*60; startTimer(); }
+    function closePopup(k=false) { const p=document.getElementById('paradise-popup-overlay-trimestral'); if(p)p.style.display='none'; document.body.style.overflow=''; if(timerInterval)clearInterval(timerInterval); if(!k)timeLeft=CHECKOUT.timerMinutes*60; }
+    function showPixModal(result) {
+        let m=document.getElementById('paradise-pix-modal-trimestral'); if(m)m.remove();
+        const pixCode=result?.pix?.pix_qr_code; const hash=result?.hash; if(!pixCode)return;
+        const exp=new Date(Date.now()+CHECKOUT.pixExpirationMinutes*60*1000).toLocaleString('pt-BR').replace(',','');
+        m=document.createElement('div'); m.id='paradise-pix-modal-trimestral';
+        m.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;justify-content:center;align-items:center;font-family:Inter,sans-serif;';
+        m.innerHTML='<div style="background:#fff;padding:32px;border-radius:16px;max-width:380px;width:90%;box-shadow:0 8px 24px rgba(0,0,0,0.2);position:relative;text-align:center;"><button id="pix-modal-close-trimestral" style="position:absolute;top:10px;right:15px;font-size:24px;color:#9ca3af;background:none;border:none;cursor:pointer;">&times;</button><h2 style="margin:0 0 16px;font-size:20px;color:#1f2937;">Pagamento via PIX</h2><div style="display:flex;justify-content:center;margin-bottom:16px;"><div id="pix-qrcode-trimestral" style="padding:4px;background:white;border-radius:4px;"></div></div><input id="pix-code-trimestral" type="text" readonly value="'+pixCode+'" style="width:100%;box-sizing:border-box;padding:12px;font-size:12px;margin-bottom:12px;border-radius:8px;text-align:center;font-family:monospace;background:#f9fafb;border:1px solid #d1d5db;color:#374151;"><button id="pix-copy-trimestral" style="border:none;width:100%;padding:14px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;margin-bottom:16px;background:#00c27a;color:#fff;">Copiar código PIX</button><div style="font-size:14px;color:#0f172a;"><p style="margin:8px 0;">💰 Valor: <strong>'+formatCurrency(CHECKOUT.amount)+'</strong></p><p style="margin:8px 0;">🕒 Válido até: '+exp+'</p><p style="margin:12px 0 0;font-weight:bold;color:#00c27a;">Pagamento seguro via PIX</p></div></div>';
+        document.body.appendChild(m);
+        const qr=document.getElementById('pix-qrcode-trimestral'); if(qr&&typeof QRCode!=='undefined')new QRCode(qr,{text:pixCode,width:184,height:184,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+        if(hash){window._popupPaymentChecker2=setInterval(async()=>{try{const r=await fetch(PROXY_URL+'?action=check_status&hash='+hash+'&_='+Date.now());if(!r.ok)return;const d=await safeParseJSON(r);if(d&&d.payment_status==='paid'){clearInterval(window._popupPaymentChecker2);const mc=m.querySelector('div');if(mc)mc.innerHTML='<h2 style="font-size:2rem;font-weight:bold;">Pagamento Aprovado! ✅</h2><p>Obrigado pela sua assinatura!</p>';}}catch(e){}},1500);}
+        const cc=()=>{m.remove();if(window._popupPaymentChecker2)clearInterval(window._popupPaymentChecker2);};
+        m.addEventListener('click',(e)=>{if(e.target===m)cc();}); document.getElementById('pix-modal-close-trimestral').addEventListener('click',cc);
+        document.getElementById('pix-copy-trimestral').addEventListener('click',()=>{navigator.clipboard.writeText(pixCode).then(()=>{const b=document.getElementById('pix-copy-trimestral');b.textContent='Copiado!';setTimeout(()=>{b.textContent='Copiar código PIX';},2000);});});
+    }
+    document.addEventListener('DOMContentLoaded',()=>{ const s=document.createElement('style');s.innerHTML='@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';document.head.appendChild(s); document.querySelectorAll(CHECKOUT.triggerSelector).forEach(el=>{el.addEventListener('click',(e)=>{e.preventDefault();showPopup();});}); });
+})();</script>
+
+<script>
+const PROXY_URL_SEMESTRAL = '/api/proxy_e4a229';
+</script>
+<script>(function() {
+    const PROXY_URL = PROXY_URL_SEMESTRAL;
+    const CACHE_KEY = 'paradise_popup_pix_e4a229';
+    const utms = Object.fromEntries(new URLSearchParams(window.location.search));
+    const getCookie = (name) => { const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); return match ? match[2] : null; };
+    const fbc = getCookie('_fbc'); const fbp = getCookie('_fbp');
+    if (fbc) utms.fbc = fbc; if (fbp) utms.fbp = fbp;
+    const CHECKOUT = {"productHash":"prod_85799dd1a9ed89bd","backgroundColor":"#ffffff","buttonColor":"#ff6820","buttonText":"Comprar Agora com PIX","title":"Bia Araújo","subtitle":"Pagamento rápido e seguro.","fields":{"name":true,"email":true,"phone":false,"document":false,"cep":false,"street":false,"number":false,"complement":false,"neighborhood":false,"city":false,"state":false},"timerMinutes":10,"timerBackgroundColor":"#ffa980","timerTextColor":"#ffffff","amount":10450,"directPix":false,"triggerSelector":".btn-comprar-semestral","pixModalTitle":"Pagamento via PIX","pixModalCopyButtonText":"Copiar código PIX","pixModalBackgroundColor":"#ffffff","pixModalTextColor":"#1f2937","pixModalButtonColor":"#00c27a","pixModalButtonTextColor":"#ffffff","pixModalValueText":"💰 Valor:","pixModalExpirationText":"🕒 Válido até:","pixModalSecurePaymentText":"Pagamento seguro via PIX","pixModalInfoTextColor":"#0f172a","pixModalSecurePaymentTextColor":"#00c27a","pixModalInputBackgroundColor":"#f9fafb","pixModalInputBorderColor":"#d1d5db","pixModalInputTextColor":"#374151","pixExpirationMinutes":5,"popupTextColor":"#000000","popupSubtitleColor":"#000000","popupPriceColor":"#ff8040","popupInputBackgroundColor":"#ffffff","popupInputBorderColor":"#ffa275","popupInputTextColor":"#000000","facebookPixelId":"","tiktokPixelId":"","backRedirectUrl":""};
+    let timeLeft = CHECKOUT.timerMinutes * 60; let timerInterval = null;
+    const safeParseJSON = async (r) => { const t = await r.text(); if (t.trim().startsWith('<')) throw new Error('Servidor indisponível.'); try { return JSON.parse(t); } catch(e) { throw new Error('Resposta inesperada.'); }};
+    function formatCurrency(v) { return (v/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+    function formatTime(s) { if(s<=0)return"00:00"; return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+    function createPopup() {
+        const el = document.createElement('div'); el.id='paradise-popup-overlay-semestral';
+        el.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);font-family:-apple-system,sans-serif;';
+        const inputStyle='width:100%;padding:12px;margin-bottom:10px;border-radius:8px;box-sizing:border-box;background-color:#ffffff;border:1px solid #ffa275;color:#000000;';
+        el.innerHTML='<div style="background:#ffffff;color:#000000;padding:24px;border-radius:24px;width:90%;max-width:380px;text-align:center;position:relative;box-sizing:border-box;"><button id="paradise-popup-close-semestral" style="position:absolute;top:10px;right:10px;background:transparent;border:none;color:#000000;font-size:24px;cursor:pointer;">&times;</button><div id="paradise-popup-timer-semestral" style="font-size:1.25rem;font-weight:bold;margin-bottom:12px;display:inline-block;padding:4px 12px;border-radius:8px;background-color:#ffa980;color:#ffffff;">'+formatTime(timeLeft)+'</div><h2 style="font-size:1.5rem;font-weight:bold;margin:0 0 4px 0;">Bia Araújo</h2><p style="color:#000000;font-size:0.875rem;margin:0 0 16px 0;">Pagamento rápido e seguro.</p><p style="font-size:2rem;font-weight:bold;color:#ff8040;margin:0 0 16px 0;">'+formatCurrency(CHECKOUT.amount)+'</p><form id="paradise-popup-form-semestral"><input type="text" name="name" placeholder="Nome Completo" required style="'+inputStyle+'"><input type="email" name="email" placeholder="Seu Melhor E-mail" required style="'+inputStyle+'"><button type="submit" id="paradise-popup-pay-btn-semestral" style="width:100%;padding:14px;background-color:#ff6820;color:white;border:none;border-radius:12px;font-weight:bold;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span>Comprar Agora com PIX</span></button></form></div>';
+        document.body.appendChild(el);
+        el.addEventListener('click',(e)=>{if(e.target===el)closePopup();});
+        document.getElementById('paradise-popup-close-semestral').addEventListener('click',closePopup);
+        document.getElementById('paradise-popup-form-semestral').addEventListener('submit',handleFormSubmit);
+    }
+    function startTimer() { const timerEl=document.getElementById('paradise-popup-timer-semestral'); if(timerInterval)clearInterval(timerInterval); timerInterval=setInterval(()=>{ timeLeft--; if(timerEl)timerEl.textContent=formatTime(timeLeft); if(timeLeft<=0){clearInterval(timerInterval);const b=document.getElementById('paradise-popup-pay-btn-semestral');if(b){b.disabled=true;b.style.opacity='0.5';b.textContent='Oferta Encerrada';}}},1000);}
+    async function handleFormSubmit(e) {
+        e.preventDefault(); const form=e.target; if(!form.checkValidity()){form.reportValidity();return;}
+        const payButton=document.getElementById('paradise-popup-pay-btn-semestral');
+        payButton.disabled=true; payButton.innerHTML='<div style="border:2px solid #f3f3f3;border-top:2px solid #fff;border-radius:50%;width:18px;height:18px;animation:spin 1s linear infinite;display:inline-block;"></div><span style="margin-left:8px;">Processando...</span>';
+        let customerData={}; const elements=form.elements; for(let i=0;i<elements.length;i++){if(elements[i].name)customerData[elements[i].name]=elements[i].value;}
+        try {
+            const response=await fetch(PROXY_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer:customerData,utms,productHash:CHECKOUT.productHash,checkoutUrl:window.location.href})});
+            const result=await safeParseJSON(response);
+            if(!response.ok)throw new Error(result.message||result.error||'Ocorreu um erro.');
+            showPixModal(result); closePopup(true);
+        } catch(error) { alert('Erro: '+error.message); payButton.disabled=false; payButton.innerHTML='<span>Comprar Agora com PIX</span>'; }
+    }
+    function showPopup() { const p=document.getElementById('paradise-popup-overlay-semestral'); if(!p){createPopup();showPopup();return;} p.style.display='flex'; document.body.style.overflow='hidden'; timeLeft=CHECKOUT.timerMinutes*60; startTimer(); }
+    function closePopup(k=false) { const p=document.getElementById('paradise-popup-overlay-semestral'); if(p)p.style.display='none'; document.body.style.overflow=''; if(timerInterval)clearInterval(timerInterval); if(!k)timeLeft=CHECKOUT.timerMinutes*60; }
+    function showPixModal(result) {
+        let m=document.getElementById('paradise-pix-modal-semestral'); if(m)m.remove();
+        const pixCode=result?.pix?.pix_qr_code; const hash=result?.hash; if(!pixCode)return;
+        const exp=new Date(Date.now()+CHECKOUT.pixExpirationMinutes*60*1000).toLocaleString('pt-BR').replace(',','');
+        m=document.createElement('div'); m.id='paradise-pix-modal-semestral';
+        m.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;justify-content:center;align-items:center;font-family:Inter,sans-serif;';
+        m.innerHTML='<div style="background:#fff;padding:32px;border-radius:16px;max-width:380px;width:90%;box-shadow:0 8px 24px rgba(0,0,0,0.2);position:relative;text-align:center;"><button id="pix-modal-close-semestral" style="position:absolute;top:10px;right:15px;font-size:24px;color:#9ca3af;background:none;border:none;cursor:pointer;">&times;</button><h2 style="margin:0 0 16px;font-size:20px;color:#1f2937;">Pagamento via PIX</h2><div style="display:flex;justify-content:center;margin-bottom:16px;"><div id="pix-qrcode-semestral" style="padding:4px;background:white;border-radius:4px;"></div></div><input id="pix-code-semestral" type="text" readonly value="'+pixCode+'" style="width:100%;box-sizing:border-box;padding:12px;font-size:12px;margin-bottom:12px;border-radius:8px;text-align:center;font-family:monospace;background:#f9fafb;border:1px solid #d1d5db;color:#374151;"><button id="pix-copy-semestral" style="border:none;width:100%;padding:14px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;margin-bottom:16px;background:#00c27a;color:#fff;">Copiar código PIX</button><div style="font-size:14px;color:#0f172a;"><p style="margin:8px 0;">💰 Valor: <strong>'+formatCurrency(CHECKOUT.amount)+'</strong></p><p style="margin:8px 0;">🕒 Válido até: '+exp+'</p><p style="margin:12px 0 0;font-weight:bold;color:#00c27a;">Pagamento seguro via PIX</p></div></div>';
+        document.body.appendChild(m);
+        const qr=document.getElementById('pix-qrcode-semestral'); if(qr&&typeof QRCode!=='undefined')new QRCode(qr,{text:pixCode,width:184,height:184,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+        if(hash){window._popupPaymentChecker3=setInterval(async()=>{try{const r=await fetch(PROXY_URL+'?action=check_status&hash='+hash+'&_='+Date.now());if(!r.ok)return;const d=await safeParseJSON(r);if(d&&d.payment_status==='paid'){clearInterval(window._popupPaymentChecker3);const mc=m.querySelector('div');if(mc)mc.innerHTML='<h2 style="font-size:2rem;font-weight:bold;">Pagamento Aprovado! ✅</h2><p>Obrigado pela sua assinatura!</p>';}}catch(e){}},1500);}
+        const cc=()=>{m.remove();if(window._popupPaymentChecker3)clearInterval(window._popupPaymentChecker3);};
+        m.addEventListener('click',(e)=>{if(e.target===m)cc();}); document.getElementById('pix-modal-close-semestral').addEventListener('click',cc);
+        document.getElementById('pix-copy-semestral').addEventListener('click',()=>{navigator.clipboard.writeText(pixCode).then(()=>{const b=document.getElementById('pix-copy-semestral');b.textContent='Copiado!';setTimeout(()=>{b.textContent='Copiar código PIX';},2000);});});
+    }
+    document.addEventListener('DOMContentLoaded',()=>{ const s=document.createElement('style');s.innerHTML='@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';document.head.appendChild(s); document.querySelectorAll(CHECKOUT.triggerSelector).forEach(el=>{el.addEventListener('click',(e)=>{e.preventDefault();showPopup();});}); });
+})();</script>
   </body>
 </html>
 
