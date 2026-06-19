@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-privacy-orange: rgb(253, 115, 80);
+  --color-privacy-bg: #fdfaf6;
+  --color-privacy-card: #ffffff;
+}
+
+@layer base {
+  body {
+    @apply bg-privacy-bg text-[#000000] font-sans text-[14px];
+  }
+}
+
+.privacy-gradient {
+  background: linear-gradient(90deg, #f68d3d 0%, #fbb0a4 100%);
+}
